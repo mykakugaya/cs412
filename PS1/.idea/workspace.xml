@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3de40d45-5968-42aa-88fa-9894619e0938" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/PS1.P1.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PS1.P2.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PS1.P3.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PS1.P3.js" beforeDir="false" afterPath="$PROJECT_DIR$/PS1.P3.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,16 +31,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last.edited.regexp": "",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last.edited.regexp&quot;: &quot;&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Node.js.PS1.P3.js">
     <configuration name="PS1" type="NodeJSConfigurationType" working-dir="$PROJECT_DIR$">
       <method v="2" />
@@ -80,7 +78,9 @@
       <updated>1653692571569</updated>
       <workItem from="1653692573745" duration="65000" />
       <workItem from="1653692752602" duration="20000" />
-      <workItem from="1653693248166" duration="5786000" />
+      <workItem from="1653693248166" duration="6166000" />
+      <workItem from="1654020479202" duration="14000" />
+      <workItem from="1654021347945" duration="78000" />
     </task>
     <servers />
   </component>

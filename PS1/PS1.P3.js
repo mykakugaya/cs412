@@ -48,7 +48,7 @@ const expr2 = strDecFunc(inputStr, str => {
     return {
         originalString: inputStr,
         modifiedString: inputStr.replace(/a/g, 'A'),
-        numberReplaced: inputStr.replace(/a/g, 'A').split('A').length - 1,
+        numberReplaced: inputStr.match(/a/g).length,
         length: inputStr.length,
     }
 })
