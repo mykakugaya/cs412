@@ -1,9 +1,12 @@
 # PS4: Angular Node App
 
-## Frontend (Angular)
+## Frontend (Angular) - Form
 - To run the Angular app, `cd angularApp` and run `ng serve`
-- Open http://localhost:4200/
+- Open http://localhost:4200/ in your browser
 
-## Backend (Node)
+## Backend (Node) - API
 - Install dependencies: `npm install`
 - Run the express app: `npm start`
+
+## Redis - Cache
+- Run the redis server: `redis-server`

@@ -6,27 +6,35 @@ const redis = require('redis');
 // redis client
 const redisPort = 6379
 const redisUrl = `redis://localhost:${redisPort}`;
-const redisClient = redis.createClient(redisUrl);
+const redisClient = redis.createClient(redisPort);
 
-//log error to the console if any occurs
-redisClient.on("error", (err) => {
-    console.log(err);
-});
+(async () => {
+    redisClient.on('error', (err) => {
+        console.log('Redis Client Error', err);
+    });
+    redisClient.on('ready', () => console.log('Redis is ready'));
 
-// Get and return live covid stats for searched country
+    await redisClient.connect();
+
+    await redisClient.ping();
+})();
+
+// Covid19 API get live covid stats for searched country
 router.post('/', async function (req, res, next) {
     // set cors headers
     res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Methods', 'GET,POST');
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Cache-Control");
 
-    // get input country from req.body
+    // get form inputted country name from req.body
     const searchTerm = req.body.country.toLowerCase();
     console.log(searchTerm);
 
-    // get country slug from redis if countries already cached, else get from api
-    // const countrySlug = await getCountrySlug(searchTerm, res);
-    // console.log(countrySlug);
+    // get country slug from redis (if cached)
+    // const country = await getCountrySlug(searchTerm);
+    // console.log(country);
+
+    // if not cached, get country slug from api
     const countriesUrl = `https://api.covid19api.com/countries`;
     const countriesResponse = await axios.get(countriesUrl);
     const countries = countriesResponse.data;
@@ -45,7 +53,6 @@ router.post('/', async function (req, res, next) {
             console.log(lastUpdate);
             // return api results with status 200
             // returning most recent live update in data
-            // format response data
             const responseData = {
                 country: lastUpdate.Country,
                 cases: lastUpdate.Cases
@@ -59,7 +66,7 @@ router.post('/', async function (req, res, next) {
 });
 
 /*
-get country slug for searched country from countries list in redis cache
+Get country slug for searched country from countries list in redis cache
 Get list of countries from redis if cached, else get from api
 countries: [{
     "Country": "United States of America",
@@ -67,10 +74,10 @@ countries: [{
     "ISO2": "US"
   }, ...]
  */
-async function getCountrySlug(searchTerm, res) {
+async function getCountrySlug(searchTerm) {
     try {
         // get countries from redis (if cached)
-        redisClient.get('countries', function (err, countries) {
+        await redisClient.get('countries', async function (err, countries) {
             if (err) throw err;
             if(countries) {
                 // get country slug from countries list
@@ -78,7 +85,7 @@ async function getCountrySlug(searchTerm, res) {
                 // if country is found
                 if (country) {
                     console.log("country found in redis");
-                    return country.Slug;
+                    return country;
                 } else { // if country is not found
                     return Error("country not found");
                 }
@@ -86,16 +93,22 @@ async function getCountrySlug(searchTerm, res) {
                 console.log("countries not found in redis");
                 // list not in cache, get countries from api and store in redis
                 const countriesUrl = `https://api.covid19api.com/countries`;
-                const countriesResponse = axios.get(countriesUrl);
+                const countriesResponse = await axios.get(countriesUrl);
                 const countries = countriesResponse.data;
                 console.log(countries);
                 // store countries in redis
-                redisClient.set('countries', JSON.stringify(countries));
-                return getCountrySlug(searchTerm);
+                redisClient.setex('countries', 6000, countries);
+                const country = JSON.parse(countries).find(country => country.Country.toLowerCase() === searchTerm);
+                if (country) {
+                    console.log("country found in redis");
+                    return country;
+                } else { // if country is not found
+                    return Error("country not found");
+                }
             }
         });
     } catch (err) {
-        res.status(500).send({message: err.message});
+        console.log(err);
     }
 }
 
